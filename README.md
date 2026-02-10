@@ -1,6 +1,6 @@
 # Welcome to your Lovable project
 
-## Project info
+## Project info https://beats-by-siba-boutique.lovable.app
 
 **URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
 
