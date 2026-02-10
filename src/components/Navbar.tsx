@@ -22,7 +22,7 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
       <div className="container mx-auto flex items-center justify-between h-20 px-4">
         <Link to="/" className="flex-shrink-0">
-          <img src={logo} alt="Beats by Siba – Hair Edition" className="h-12 w-auto" />
+          <img src={logo} alt="Beats by Siba – Hair Edition" className="h-16 w-auto" />
         </Link>
 
         {/* Desktop */}

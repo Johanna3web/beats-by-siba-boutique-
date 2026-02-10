@@ -6,7 +6,7 @@ const Footer = () => (
     <div className="container mx-auto px-4 py-16">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
         <div>
-          <img src={logo} alt="Beats by Siba" className="h-10 w-auto brightness-0 invert mb-4" />
+          <img src={logo} alt="Beats by Siba" className="h-16 w-auto brightness-0 invert mb-4" />
           <p className="font-body text-sm text-primary-foreground/60 leading-relaxed">
             Premium, high quality hair made to elevate your look. Quality is the standard, confidence is the result.
           </p>
