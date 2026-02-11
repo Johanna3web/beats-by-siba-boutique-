@@ -24,7 +24,7 @@ const Index = () => (
         >
           <p className="font-body text-xs uppercase tracking-[0.3em] text-gold mb-6">Our Promise</p>
           <p className="font-heading text-2xl md:text-3xl leading-relaxed italic text-foreground/80">
-            "Hair Edition is all about premium, high quality hair made to elevate your look. Our collections are carefully sourced for softness, longevity, and a flawless natural finish. Whether you're going for everyday beauty or full glam, our hair delivers luxury you can see and feel."
+            "Beats by Siba Hair Edition is all about premium, high quality hair made to elevate your look. Our collections are carefully sourced for softness, longevity, and a flawless natural finish. Whether you're going for everyday beauty or full glam, our hair delivers luxury you can see and feel."
           </p>
           <div className="w-16 h-px bg-gold mx-auto mt-8" />
         </motion.div>

@@ -32,8 +32,8 @@ const Footer = () => (
         <div>
           <h4 className="font-heading text-lg mb-4">Contact</h4>
           <div className="flex flex-col gap-2 font-body text-sm text-primary-foreground/60">
-            <span>📞 064 709 9067</span>
-            <span>✉️ johannasegoapa@gmail.com</span>
+            <span>📞 +27 624728033</span>
+            <span>✉️ blessingmqikela8@gmail.com</span>
           </div>
         </div>
       </div>

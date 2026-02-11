@@ -45,12 +45,12 @@ const Contact = () => {
               <div className="space-y-6">
                 <div className="flex items-center gap-4">
                   <Phone className="w-5 h-5 text-gold" />
-                  <span className="font-body text-sm">064 709 9067</span>
+                  <span className="font-body text-sm">+27 624728033</span>
                 </div>
                 <div className="flex items-center gap-4">
                   <Mail className="w-5 h-5 text-gold" />
-                  <a href="mailto:johannasegoapa@gmail.com" className="font-body text-sm hover:text-gold transition-colors">
-                    johannasegoapa@gmail.com
+                  <a href="mailto:blessingmqikela8@gmail.com" className="font-body text-sm hover:text-gold transition-colors">
+                    blessingmqikela8@gmail.com
                   </a>
                 </div>
               </div>
