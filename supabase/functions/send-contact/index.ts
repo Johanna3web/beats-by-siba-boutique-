@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { Resend } from "npm:resend@2.0.0";
+import { z } from "npm:zod@3.22.4";
 
 const escapeHtml = (text: string): string => {
   const map: Record<string, string> = {
@@ -12,6 +13,12 @@ const escapeHtml = (text: string): string => {
   };
   return text.replace(/[&<>"']/g, (m) => map[m]);
 };
+
+const ContactSchema = z.object({
+  name: z.string().min(1).max(100).trim(),
+  email: z.string().email().max(255),
+  message: z.string().min(1).max(2000).trim(),
+});
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -25,11 +32,17 @@ serve(async (req) => {
   }
 
   try {
-    const { name, email, message } = await req.json();
+    const rawData = await req.json();
+    const validationResult = ContactSchema.safeParse(rawData);
 
-    if (!name || !email || !message) {
-      throw new Error("All fields are required");
+    if (!validationResult.success) {
+      return new Response(
+        JSON.stringify({ error: "Invalid input. Please check your data." }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
     }
+
+    const { name, email, message } = validationResult.data;
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -49,7 +62,7 @@ serve(async (req) => {
       await resend.emails.send({
         from: "Beats by Siba <onboarding@resend.dev>",
         to: ["blessingmqikela8@gmail.com"],
-        subject: `New Contact Message from ${name}`,
+        subject: `New Contact Message from ${escapeHtml(name)}`,
         html: `
           <h2>New Contact Form Submission</h2>
           <p><strong>Name:</strong> ${escapeHtml(name)}</p>
@@ -65,10 +78,13 @@ serve(async (req) => {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (err: any) {
-    console.error("Error:", err);
-    return new Response(JSON.stringify({ error: err.message }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    console.error("Contact form error:", err);
+    return new Response(
+      JSON.stringify({ error: "Failed to send message. Please try again later." }),
+      {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      }
+    );
   }
 });
