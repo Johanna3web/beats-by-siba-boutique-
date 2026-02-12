@@ -59,9 +59,9 @@ serve(async (req) => {
     const resendKey = Deno.env.get("RESEND_API_KEY");
     if (resendKey) {
       const resend = new Resend(resendKey);
-      await resend.emails.send({
+      const emailResult = await resend.emails.send({
         from: "Beats by Siba <onboarding@resend.dev>",
-        to: ["blessingmqikela8@gmail.com"],
+        to: ["johannasegoapa@gmail.com"],
         subject: `New Contact Message from ${escapeHtml(name)}`,
         html: `
           <h2>New Contact Form Submission</h2>
@@ -71,6 +71,9 @@ serve(async (req) => {
           <p>${escapeHtml(message)}</p>
         `,
       });
+      console.log("Resend email result:", JSON.stringify(emailResult));
+    } else {
+      console.warn("RESEND_API_KEY not configured — skipping email notification");
     }
 
     return new Response(JSON.stringify({ success: true }), {
