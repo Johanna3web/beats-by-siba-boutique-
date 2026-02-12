@@ -92,6 +92,8 @@ export type Database = {
           notes: string | null
           order_number: string
           order_status: Database["public"]["Enums"]["order_status"]
+          payfast_payment_id: string | null
+          payfast_token: string | null
           payment_status: Database["public"]["Enums"]["payment_status"]
           shipping_address: string
           shipping_city: string | null
@@ -99,8 +101,6 @@ export type Database = {
           shipping_country: string
           shipping_postal_code: string | null
           shipping_province: string | null
-          stripe_payment_intent_id: string | null
-          stripe_session_id: string | null
           subtotal: number
           total: number
           tracking_number: string | null
@@ -116,6 +116,8 @@ export type Database = {
           notes?: string | null
           order_number: string
           order_status?: Database["public"]["Enums"]["order_status"]
+          payfast_payment_id?: string | null
+          payfast_token?: string | null
           payment_status?: Database["public"]["Enums"]["payment_status"]
           shipping_address: string
           shipping_city?: string | null
@@ -123,8 +125,6 @@ export type Database = {
           shipping_country?: string
           shipping_postal_code?: string | null
           shipping_province?: string | null
-          stripe_payment_intent_id?: string | null
-          stripe_session_id?: string | null
           subtotal: number
           total: number
           tracking_number?: string | null
@@ -140,6 +140,8 @@ export type Database = {
           notes?: string | null
           order_number?: string
           order_status?: Database["public"]["Enums"]["order_status"]
+          payfast_payment_id?: string | null
+          payfast_token?: string | null
           payment_status?: Database["public"]["Enums"]["payment_status"]
           shipping_address?: string
           shipping_city?: string | null
@@ -147,8 +149,6 @@ export type Database = {
           shipping_country?: string
           shipping_postal_code?: string | null
           shipping_province?: string | null
-          stripe_payment_intent_id?: string | null
-          stripe_session_id?: string | null
           subtotal?: number
           total?: number
           tracking_number?: string | null

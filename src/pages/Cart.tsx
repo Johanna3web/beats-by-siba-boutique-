@@ -74,7 +74,7 @@ const Cart = () => {
               <span className="font-heading text-3xl text-gold">R{total.toLocaleString()}</span>
             </div>
             <p className="font-body text-xs text-muted-foreground text-center mb-6">
-              Checkout with live payments will be available once Stripe is connected.
+              Checkout with live payments will be available once PayFast is connected.
             </p>
             <button
               className="w-full py-4 bg-primary text-primary-foreground font-body text-xs uppercase tracking-[0.2em] hover:bg-gold hover:text-foreground transition-colors"
