@@ -1,6 +1,6 @@
 # Welcome to your Lovable project
 
-## Project info https://beats-by-siba-boutique.lovable.app
+## Project info https://beats-by-siba-boutique.lovable.app https://beats-by-siba-boutique.vercel.app/
 
 **URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
 
@@ -10,7 +10,7 @@ There are several ways of editing your application.
 
 **Use Lovable**
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+Simply visit the https://beats-by-siba-boutique.vercel.app/ and start prompting.
 
 Changes made via Lovable will be committed automatically to this repo.
 
