@@ -14,6 +14,13 @@ import Contact from "./pages/Contact";
 import OrderTracking from "./pages/OrderTracking";
 import Cart from "./pages/Cart";
 import NotFound from "./pages/NotFound";
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminResetPassword from "./pages/admin/AdminResetPassword";
+import AdminLayout from "./components/admin/AdminLayout";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminOrders from "./pages/admin/AdminOrders";
+import AdminMessages from "./pages/admin/AdminMessages";
+import AdminCustomers from "./pages/admin/AdminCustomers";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +41,15 @@ const App = () => (
             <Route path="/contact" element={<Contact />} />
             <Route path="/track-order" element={<OrderTracking />} />
             <Route path="/cart" element={<Cart />} />
+            {/* Admin routes */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin/reset-password" element={<AdminResetPassword />} />
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="orders" element={<AdminOrders />} />
+              <Route path="customers" element={<AdminCustomers />} />
+              <Route path="messages" element={<AdminMessages />} />
+            </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

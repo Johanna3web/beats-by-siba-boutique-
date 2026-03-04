@@ -61,7 +61,7 @@ serve(async (req) => {
       const resend = new Resend(resendKey);
       const emailResult = await resend.emails.send({
         from: "Beats by Siba <onboarding@resend.dev>",
-        to: ["johannasegoapa@gmail.com"],
+        to: ["blessingmqikela8@gmail.com"],
         subject: `New Contact Message from ${escapeHtml(name)}`,
         html: `
           <h2>New Contact Form Submission</h2>
