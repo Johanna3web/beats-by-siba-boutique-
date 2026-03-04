@@ -37,8 +37,11 @@ const Footer = () => (
           </div>
         </div>
       </div>
-      <div className="mt-12 pt-8 border-t border-primary-foreground/10 text-center font-body text-xs text-primary-foreground/40 tracking-wider">
-        © 2026 Beats by Siba – Hair Edition. All rights reserved.
+      <div className="mt-12 pt-8 border-t border-primary-foreground/10 text-center">
+        <img src={logo} alt="Beats by Siba" className="h-12 w-auto brightness-0 invert mx-auto mb-4" />
+        <p className="font-body text-xs text-primary-foreground/40 tracking-wider">
+          © 2026 Beats by Siba – Hair Edition. All rights reserved.
+        </p>
       </div>
     </div>
   </footer>

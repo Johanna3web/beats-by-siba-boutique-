@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import heroImg from "@/assets/model1.jpeg";
+import heroImg from "@/assets/hero-model.jpeg";
 
 const HeroSection = () => (
   <section className="relative h-screen flex items-center justify-center overflow-hidden">
