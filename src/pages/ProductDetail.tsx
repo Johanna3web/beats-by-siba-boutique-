@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ProductGallery from "@/components/ProductGallery";
 import { products } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
 import { ChevronLeft } from "lucide-react";
@@ -10,7 +11,7 @@ const ProductDetail = () => {
   const { id } = useParams();
   const product = products.find((p) => p.id === id);
   const { addItem } = useCart();
-  const [selectedLength, setSelectedLength] = useState<string>("");
+  const [selectedLengthIndex, setSelectedLengthIndex] = useState(0);
 
   if (!product) {
     return (
@@ -25,6 +26,10 @@ const ProductDetail = () => {
     );
   }
 
+  const selectedVariant = product.lengths?.[selectedLengthIndex];
+  const displayPrice = selectedVariant?.price ?? product.price;
+  const displayLength = selectedVariant?.length ?? "";
+
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -35,31 +40,29 @@ const ProductDetail = () => {
           </Link>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div className="aspect-[3/4] overflow-hidden bg-secondary">
-              <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
-            </div>
+            <ProductGallery images={product.images} name={product.name} />
 
             <div className="flex flex-col justify-center">
               <p className="font-body text-[10px] uppercase tracking-[0.2em] text-gold mb-2">{product.category}</p>
               <h1 className="font-heading text-4xl md:text-5xl mb-4">{product.name}</h1>
-              <p className="font-heading text-3xl text-gold mb-6">R{product.price.toLocaleString()}</p>
+              <p className="font-heading text-3xl text-gold mb-6">R{displayPrice.toLocaleString()}</p>
               <p className="font-body text-sm text-muted-foreground leading-relaxed mb-8">{product.description}</p>
 
-              {product.lengths && (
+              {product.lengths && product.lengths.length > 0 && (
                 <div className="mb-8">
-                  <p className="font-body text-xs uppercase tracking-[0.15em] mb-3">Length</p>
+                  <p className="font-body text-xs uppercase tracking-[0.15em] mb-3">Select Length</p>
                   <div className="flex flex-wrap gap-2">
-                    {product.lengths.map((l) => (
+                    {product.lengths.map((v, i) => (
                       <button
-                        key={l}
-                        onClick={() => setSelectedLength(l)}
+                        key={v.length}
+                        onClick={() => setSelectedLengthIndex(i)}
                         className={`px-4 py-2 border font-body text-xs transition-colors ${
-                          selectedLength === l
+                          selectedLengthIndex === i
                             ? "bg-primary text-primary-foreground border-primary"
                             : "border-border hover:border-foreground"
                         }`}
                       >
-                        {l}
+                        {v.length}
                       </button>
                     ))}
                   </div>
@@ -67,10 +70,10 @@ const ProductDetail = () => {
               )}
 
               <button
-                onClick={() => addItem(product, selectedLength)}
+                onClick={() => addItem(product, displayLength)}
                 className="w-full py-4 bg-primary text-primary-foreground font-body text-xs uppercase tracking-[0.2em] hover:bg-gold hover:text-foreground transition-colors mb-8"
               >
-                Add to Cart
+                Add to Cart — R{displayPrice.toLocaleString()}
               </button>
 
               <div>

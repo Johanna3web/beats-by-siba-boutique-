@@ -4,8 +4,7 @@ import FeaturedProducts from "@/components/FeaturedProducts";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import model1 from "@/assets/model1.jpeg";
-import model2 from "@/assets/model2.jpeg";
+import wigMain from "@/assets/wig-straight-main.jpg";
 
 const Index = () => (
   <div className="min-h-screen">
@@ -45,18 +44,13 @@ const Index = () => (
           <p className="font-body text-xs uppercase tracking-[0.3em] text-gold mb-3">Collections</p>
           <h2 className="font-heading text-4xl md:text-5xl">Shop by Category</h2>
         </motion.div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {[
-            { label: "Wigs", img: model1, cat: "wigs" },
-            { label: "Bundles", img: model2, cat: "bundles" },
-          ].map((c) => (
-            <Link key={c.cat} to={`/shop?cat=${c.cat}`} className="group relative aspect-[4/3] overflow-hidden">
-              <img src={c.img} alt={c.label} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-              <div className="absolute inset-0 bg-primary/40 group-hover:bg-primary/30 transition-colors flex items-center justify-center">
-                <span className="font-heading text-4xl text-primary-foreground">{c.label}</span>
-              </div>
-            </Link>
-          ))}
+        <div className="grid grid-cols-1 gap-6 max-w-2xl mx-auto">
+          <Link to="/shop?cat=wigs" className="group relative aspect-[4/3] overflow-hidden">
+            <img src={wigMain} alt="Wigs" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            <div className="absolute inset-0 bg-primary/40 group-hover:bg-primary/30 transition-colors flex items-center justify-center">
+              <span className="font-heading text-4xl text-primary-foreground">Wigs</span>
+            </div>
+          </Link>
         </div>
       </div>
     </section>
