@@ -34,21 +34,20 @@ const Footer = () => (
             >
               <TikTokIcon />
             </a>
-            <button
-              onClick={() => toast.info("Coming soon!")}
+            <a
+              href="https://www.instagram.com/siba_mqiks?igsh=MXhjMzFpY2t5Z3YzYQ%3D%3D&utm_source=qr"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-primary-foreground/60 hover:text-primary-foreground transition-colors"
             >
               <InstagramIcon />
-            </button>
+            </a>
           </div>
         </div>
         <div>
           <h4 className="font-heading text-lg mb-4">Shop</h4>
           <div className="flex flex-col gap-2 font-body text-sm text-primary-foreground/60">
             <Link to="/shop?cat=wigs" className="hover:text-primary-foreground transition-colors">Wigs</Link>
-            <Link to="/shop?cat=bundles" className="hover:text-primary-foreground transition-colors">Bundles</Link>
-            <Link to="/shop?cat=closures" className="hover:text-primary-foreground transition-colors">Closures</Link>
-            <Link to="/shop?cat=frontals" className="hover:text-primary-foreground transition-colors">Frontals</Link>
           </div>
         </div>
         <div>
