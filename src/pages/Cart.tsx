@@ -34,38 +34,44 @@ const Cart = () => {
           <h1 className="font-heading text-5xl text-center mb-12">Your Cart</h1>
 
           <div className="space-y-6 mb-12">
-            {items.map((item) => (
-              <div key={item.product.id} className="flex gap-6 border-b border-border pb-6">
-                <Link to={`/product/${item.product.id}`} className="w-24 h-32 flex-shrink-0 bg-secondary overflow-hidden">
-                  <img src={item.product.image} alt={item.product.name} className="w-full h-full object-cover" />
-                </Link>
-                <div className="flex-1">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="font-heading text-xl">{item.product.name}</h3>
-                      {item.selectedLength && (
-                        <p className="font-body text-xs text-muted-foreground mt-1">Length: {item.selectedLength}</p>
-                      )}
-                    </div>
-                    <button onClick={() => removeItem(item.product.id)} className="text-muted-foreground hover:text-foreground">
-                      <X className="w-4 h-4" />
-                    </button>
-                  </div>
-                  <div className="flex items-center justify-between mt-4">
-                    <div className="flex items-center gap-3 border border-border">
-                      <button onClick={() => updateQuantity(item.product.id, item.quantity - 1)} className="p-2 hover:bg-secondary">
-                        <Minus className="w-3 h-3" />
-                      </button>
-                      <span className="font-body text-sm w-6 text-center">{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.product.id, item.quantity + 1)} className="p-2 hover:bg-secondary">
-                        <Plus className="w-3 h-3" />
+            {items.map((item) => {
+              const itemPrice = item.selectedLength
+                ? item.product.lengths?.find((l) => l.length === item.selectedLength)?.price ?? item.product.price
+                : item.product.price;
+              const itemKey = `${item.product.id}-${item.selectedLength || "default"}`;
+              return (
+                <div key={itemKey} className="flex gap-6 border-b border-border pb-6">
+                  <Link to={`/product/${item.product.id}`} className="w-24 h-32 flex-shrink-0 bg-secondary overflow-hidden">
+                    <img src={item.product.image} alt={item.product.name} className="w-full h-full object-cover" />
+                  </Link>
+                  <div className="flex-1">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="font-heading text-xl">{item.product.name}</h3>
+                        {item.selectedLength && (
+                          <p className="font-body text-xs text-muted-foreground mt-1">Length: {item.selectedLength}</p>
+                        )}
+                      </div>
+                      <button onClick={() => removeItem(item.product.id)} className="text-muted-foreground hover:text-foreground">
+                        <X className="w-4 h-4" />
                       </button>
                     </div>
-                    <p className="font-body text-sm font-semibold">R{(item.product.price * item.quantity).toLocaleString()}</p>
+                    <div className="flex items-center justify-between mt-4">
+                      <div className="flex items-center gap-3 border border-border">
+                        <button onClick={() => updateQuantity(item.product.id, item.quantity - 1)} className="p-2 hover:bg-secondary">
+                          <Minus className="w-3 h-3" />
+                        </button>
+                        <span className="font-body text-sm w-6 text-center">{item.quantity}</span>
+                        <button onClick={() => updateQuantity(item.product.id, item.quantity + 1)} className="p-2 hover:bg-secondary">
+                          <Plus className="w-3 h-3" />
+                        </button>
+                      </div>
+                      <p className="font-body text-sm font-semibold">R{(itemPrice * item.quantity).toLocaleString()}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="border-t border-border pt-6">

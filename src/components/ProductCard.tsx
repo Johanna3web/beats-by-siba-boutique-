@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
 import { Product } from "@/data/products";
-import { useCart } from "@/contexts/CartContext";
 
 const ProductCard = ({ product }: { product: Product }) => {
-  const { addItem } = useCart();
+  const startPrice = product.lengths?.[0]?.price ?? product.price;
 
   return (
     <div className="group">
@@ -23,13 +22,13 @@ const ProductCard = ({ product }: { product: Product }) => {
         <Link to={`/product/${product.id}`}>
           <h3 className="font-heading text-xl hover:text-gold transition-colors">{product.name}</h3>
         </Link>
-        <p className="font-body text-sm font-semibold">R{product.price.toLocaleString()}</p>
-        <button
-          onClick={() => addItem(product)}
-          className="mt-3 w-full py-3 bg-primary text-primary-foreground font-body text-xs uppercase tracking-[0.2em] hover:bg-gold hover:text-foreground transition-colors"
+        <p className="font-body text-sm font-semibold">From R{startPrice.toLocaleString()}</p>
+        <Link
+          to={`/product/${product.id}`}
+          className="mt-3 block w-full py-3 bg-primary text-primary-foreground font-body text-xs uppercase tracking-[0.2em] hover:bg-gold hover:text-foreground transition-colors text-center"
         >
-          Add to Cart
-        </button>
+          View Options
+        </Link>
       </div>
     </div>
   );

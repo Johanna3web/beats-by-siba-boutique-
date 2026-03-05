@@ -19,7 +19,7 @@ const FeaturedProducts = () => {
           <p className="font-body text-xs uppercase tracking-[0.3em] text-gold mb-3">Curated for You</p>
           <h2 className="font-heading text-4xl md:text-5xl">Bestsellers</h2>
         </motion.div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl mx-auto">
           {featured.map((p, i) => (
             <motion.div
               key={p.id}
