@@ -31,7 +31,7 @@ const About = () => (
             <p className="font-body text-xs uppercase tracking-[0.3em] text-gold">Beats by Siba – Hair Edition</p>
             
             <p className="font-heading text-2xl leading-relaxed italic">
-              "Hair Edition is all about premium, high quality hair made to elevate your look. Our collections are carefully sourced for softness, longevity, and a flawless natural finish."
+              "Beats by Siba Hair Edition is all about premium, high quality hair made to elevate your look. Our collections are carefully sourced for softness, longevity, and a flawless natural finish."
             </p>
 
             <p className="font-body text-sm text-muted-foreground leading-relaxed">
