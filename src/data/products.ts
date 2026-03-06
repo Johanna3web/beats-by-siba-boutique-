@@ -8,6 +8,10 @@ import wig13x4Side from "@/assets/wig-13x4-side.jpg";
 import wig13x4Cap from "@/assets/wig-13x4-cap.jpg";
 import wig13x4Lace from "@/assets/wig-13x4-lace.jpg";
 
+import wigBurmeseMain from "@/assets/wig-burmese-main.jpg";
+import wigBurmeseSide from "@/assets/wig-burmese-side.jpg";
+import wigBurmeseCap from "@/assets/wig-burmese-cap.jpg";
+
 export interface LengthVariant {
   length: string;
   price: number;
@@ -26,38 +30,6 @@ export interface Product {
 }
 
 export const products: Product[] = [
-  {
-    id: "premium-5x5-hd-lace-wig",
-    name: "Premium Selection 5x5 HD Lace Wig",
-    category: "wigs",
-    price: 3620,
-    image: wigMain,
-    images: [wigMain, wigSide, wigDetails, wigLace],
-    description:
-      "Ultra-luxurious straight wig with an invisible 5x5 HD lace closure that melts seamlessly into any skin tone. Pre-plucked hairline with baby hairs for a flawless, undetectable finish. Features an adjustable band for a perfect, snug fit every time.",
-    lengths: [
-      { length: '10"', price: 3620 },
-      { length: '12"', price: 3900 },
-      { length: '14"', price: 4100 },
-      { length: '16"', price: 4480 },
-      { length: '18"', price: 4700 },
-      { length: '20"', price: 5520 },
-      { length: '22"', price: 5800 },
-      { length: '24"', price: 6520 },
-      { length: '26"', price: 6700 },
-      { length: '28"', price: 7450 },
-      { length: '30"', price: 7800 },
-    ],
-    features: [
-      "100% Human Hair",
-      "5x5 HD Lace Closure",
-      "Swiss HD Lace",
-      "Pre-plucked Hairline",
-      "Adjustable Band",
-      "Perfect Fit",
-      "Can Be Dyed & Styled",
-    ],
-  },
   {
     id: "premium-13x4-hd-lace-wig",
     name: "Premium Selection 13x4 HD Lace Wig",
@@ -87,6 +59,70 @@ export const products: Product[] = [
       "Pre-plucked Hairline",
       "Adjustable Band",
       "Versatile Parting",
+      "Can Be Dyed & Styled",
+    ],
+  },
+  {
+    id: "burmese-curls-13x4-hd-lace-wig",
+    name: "Burmese Curls Premium Selection 13x4 HD Lace Wig",
+    category: "wigs",
+    price: 4450,
+    image: wigBurmeseMain,
+    images: [wigBurmeseMain, wigBurmeseSide, wigBurmeseCap],
+    description:
+      "Luxurious Burmese curls with a full 13x4 HD lace frontal for a voluminous, natural curly look. Pre-bleached knots and pre-plucked hairline for an undetectable, flawless finish. The soft, bouncy curls hold their pattern beautifully and can be restyled with ease.",
+    lengths: [
+      { length: '10"', price: 4450 },
+      { length: '12"', price: 4530 },
+      { length: '14"', price: 4950 },
+      { length: '16"', price: 5430 },
+      { length: '18"', price: 5700 },
+      { length: '20"', price: 6000 },
+      { length: '22"', price: 6850 },
+      { length: '24"', price: 7050 },
+      { length: '26"', price: 7450 },
+      { length: '28"', price: 7750 },
+      { length: '30"', price: 8000 },
+    ],
+    features: [
+      "100% Human Hair",
+      "13x4 HD Lace Frontal",
+      "Burmese Curl Pattern",
+      "Pre-bleached Knots",
+      "Pre-plucked Hairline",
+      "Adjustable Band",
+      "Can Be Dyed & Styled",
+    ],
+  },
+  {
+    id: "premium-5x5-hd-lace-wig",
+    name: "Premium Selection 5x5 HD Lace Wig",
+    category: "wigs",
+    price: 3620,
+    image: wigMain,
+    images: [wigMain, wigSide, wigDetails, wigLace],
+    description:
+      "Ultra-luxurious straight wig with an invisible 5x5 HD lace closure that melts seamlessly into any skin tone. Pre-plucked hairline with baby hairs for a flawless, undetectable finish. Features an adjustable band for a perfect, snug fit every time.",
+    lengths: [
+      { length: '10"', price: 3620 },
+      { length: '12"', price: 3900 },
+      { length: '14"', price: 4100 },
+      { length: '16"', price: 4480 },
+      { length: '18"', price: 4700 },
+      { length: '20"', price: 5520 },
+      { length: '22"', price: 5800 },
+      { length: '24"', price: 6520 },
+      { length: '26"', price: 6700 },
+      { length: '28"', price: 7450 },
+      { length: '30"', price: 7800 },
+    ],
+    features: [
+      "100% Human Hair",
+      "5x5 HD Lace Closure",
+      "Swiss HD Lace",
+      "Pre-plucked Hairline",
+      "Adjustable Band",
+      "Perfect Fit",
       "Can Be Dyed & Styled",
     ],
   },
