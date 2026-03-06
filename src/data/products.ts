@@ -12,6 +12,9 @@ import wigBurmeseMain from "@/assets/wig-burmese-main.jpg";
 import wigBurmeseSide from "@/assets/wig-burmese-side.jpg";
 import wigBurmeseCap from "@/assets/wig-burmese-cap.jpg";
 
+import wigBodywaveMain from "@/assets/wig-bodywave-main.jpg";
+import wigBodywaveSide from "@/assets/wig-bodywave-side.jpg";
+
 import bundlesKinkyCurly from "@/assets/bundles-kinky-curly.jpg";
 import bundlesDeepWave from "@/assets/bundles-deep-wave.jpg";
 
@@ -34,6 +37,38 @@ export interface Product {
 }
 
 export const products: Product[] = [
+  {
+    id: "premium-5x5-hd-lace-bodywave-wig",
+    name: "Premium Selection 5x5 HD Lace Bodywave Wig",
+    category: "wigs",
+    price: 3750,
+    image: wigBodywaveMain,
+    images: [wigBodywaveMain, wigBodywaveSide],
+    description:
+      "Gorgeous body wave wig with an invisible 5x5 HD lace closure that melts seamlessly into any skin tone. Features soft, flowing waves with incredible volume and movement. Pre-plucked hairline with baby hairs for a flawless, undetectable finish that looks completely natural.",
+    lengths: [
+      { length: '10"', price: 3750 },
+      { length: '12"', price: 3980 },
+      { length: '14"', price: 4250 },
+      { length: '16"', price: 4600 },
+      { length: '18"', price: 4880 },
+      { length: '20"', price: 5720 },
+      { length: '22"', price: 5950 },
+      { length: '24"', price: 6680 },
+      { length: '26"', price: 6850 },
+      { length: '28"', price: 7650 },
+      { length: '30"', price: 7980 },
+    ],
+    features: [
+      "100% Human Hair",
+      "5x5 HD Lace Closure",
+      "Body Wave Pattern",
+      "Swiss HD Lace",
+      "Pre-plucked Hairline",
+      "Adjustable Band",
+      "Can Be Dyed & Styled",
+    ],
+  },
   {
     id: "premium-13x4-hd-lace-wig",
     name: "Premium Selection 13x4 HD Lace Wig",
