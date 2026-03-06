@@ -15,6 +15,10 @@ import wigBurmeseCap from "@/assets/wig-burmese-cap.jpg";
 import wigBodywaveMain from "@/assets/wig-bodywave-main.jpg";
 import wigBodywaveSide from "@/assets/wig-bodywave-side.jpg";
 
+import wigColourPlum from "@/assets/wig-colour-plum.jpg";
+import wigColourOmbreDark from "@/assets/wig-colour-ombre-dark.jpg";
+import wigColourOmbreBrown from "@/assets/wig-colour-ombre-brown.jpg";
+
 import bundlesKinkyCurly from "@/assets/bundles-kinky-curly.jpg";
 import bundlesDeepWave from "@/assets/bundles-deep-wave.jpg";
 
@@ -33,10 +37,42 @@ export interface Product {
   description: string;
   lengths?: LengthVariant[];
   features: string[];
-  video?: string;
 }
 
 export const products: Product[] = [
+  {
+    id: "premium-5x5-hd-lace-colour-wig",
+    name: "Premium Selection 5x5 HD Lace Colour Wig",
+    category: "wigs",
+    price: 3750,
+    image: wigColourPlum,
+    images: [wigColourPlum, wigColourOmbreDark, wigColourOmbreBrown],
+    description:
+      "Turn heads with our stunning colour collection — available in rich plum, black-to-brown ombre, and dark brown ombre. Each wig features an invisible 5x5 HD lace closure that melts seamlessly into any skin tone. Pre-plucked hairline with baby hairs for a flawless, undetectable finish with a bold, glamorous colour payoff.",
+    lengths: [
+      { length: '10"', price: 3750 },
+      { length: '12"', price: 3980 },
+      { length: '14"', price: 4250 },
+      { length: '16"', price: 4600 },
+      { length: '18"', price: 4880 },
+      { length: '20"', price: 5720 },
+      { length: '22"', price: 5950 },
+      { length: '24"', price: 6680 },
+      { length: '26"', price: 6850 },
+      { length: '28"', price: 7650 },
+      { length: '30"', price: 7980 },
+    ],
+    features: [
+      "100% Human Hair",
+      "5x5 HD Lace Closure",
+      "Available in 3 Colours",
+      "Plum | Black-Brown Ombre | Dark Brown Ombre",
+      "Swiss HD Lace",
+      "Pre-plucked Hairline",
+      "Adjustable Band",
+      "Can Be Restyled",
+    ],
+  },
   {
     id: "premium-5x5-hd-lace-bodywave-wig",
     name: "Premium Selection 5x5 HD Lace Bodywave Wig",
@@ -108,7 +144,6 @@ export const products: Product[] = [
     price: 4450,
     image: wigBurmeseMain,
     images: [wigBurmeseMain, wigBurmeseSide, wigBurmeseCap],
-    video: "/assets/wig-burmese-video.mp4",
     description:
       "Luxurious Burmese curls with a full 13x4 HD lace frontal for a voluminous, natural curly look. Pre-bleached knots and pre-plucked hairline for an undetectable, flawless finish. The soft, bouncy curls hold their pattern beautifully and can be restyled with ease.",
     lengths: [
