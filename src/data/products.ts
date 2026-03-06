@@ -12,6 +12,9 @@ import wigBurmeseMain from "@/assets/wig-burmese-main.jpg";
 import wigBurmeseSide from "@/assets/wig-burmese-side.jpg";
 import wigBurmeseCap from "@/assets/wig-burmese-cap.jpg";
 
+import bundlesKinkyCurly from "@/assets/bundles-kinky-curly.jpg";
+import bundlesDeepWave from "@/assets/bundles-deep-wave.jpg";
+
 export interface LengthVariant {
   length: string;
   price: number;
@@ -126,9 +129,72 @@ export const products: Product[] = [
       "Can Be Dyed & Styled",
     ],
   },
+  {
+    id: "kinky-curly-bundles",
+    name: "Kinky Curly Raw Hair Bundles",
+    category: "bundles",
+    price: 850,
+    image: bundlesKinkyCurly,
+    images: [bundlesKinkyCurly, bundlesDeepWave],
+    description:
+      "Premium raw kinky curly hair bundles with a tight, defined curl pattern. 100% unprocessed human hair that blends seamlessly with natural African hair textures. Each bundle weighs approximately 100g and can be dyed, bleached, and styled to perfection.",
+    lengths: [
+      { length: '10"', price: 850 },
+      { length: '12"', price: 1050 },
+      { length: '14"', price: 1250 },
+      { length: '16"', price: 1450 },
+      { length: '18"', price: 1700 },
+      { length: '20"', price: 1950 },
+      { length: '22"', price: 2200 },
+      { length: '24"', price: 2500 },
+      { length: '26"', price: 2800 },
+      { length: '28"', price: 3100 },
+    ],
+    features: [
+      "100% Raw Human Hair",
+      "Kinky Curly Pattern",
+      "Unprocessed & Virgin",
+      "~100g Per Bundle",
+      "Can Be Dyed & Bleached",
+      "Minimal Shedding",
+      "Long Lasting",
+    ],
+  },
+  {
+    id: "deep-wave-bundles",
+    name: "Deep Wave Raw Hair Bundles",
+    category: "bundles",
+    price: 800,
+    image: bundlesDeepWave,
+    images: [bundlesDeepWave, bundlesKinkyCurly],
+    description:
+      "Luxurious deep wave hair bundles crafted from 100% raw, unprocessed human hair. Features a gorgeous, bouncy wave pattern that holds beautifully even after washing. Perfect for sew-ins, quick weaves, or crochet installations.",
+    lengths: [
+      { length: '10"', price: 800 },
+      { length: '12"', price: 1000 },
+      { length: '14"', price: 1200 },
+      { length: '16"', price: 1400 },
+      { length: '18"', price: 1650 },
+      { length: '20"', price: 1900 },
+      { length: '22"', price: 2150 },
+      { length: '24"', price: 2450 },
+      { length: '26"', price: 2750 },
+      { length: '28"', price: 3050 },
+    ],
+    features: [
+      "100% Raw Human Hair",
+      "Deep Wave Pattern",
+      "Unprocessed & Virgin",
+      "~100g Per Bundle",
+      "Can Be Dyed & Bleached",
+      "Tangle-Free",
+      "Long Lasting",
+    ],
+  },
 ];
 
 export const categories = [
   { id: "all", label: "All Products" },
   { id: "wigs", label: "Wigs" },
+  { id: "bundles", label: "Bundles" },
 ];

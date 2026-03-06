@@ -48,6 +48,7 @@ const Footer = () => (
           <h4 className="font-heading text-lg mb-4">Shop</h4>
           <div className="flex flex-col gap-2 font-body text-sm text-primary-foreground/60">
             <Link to="/shop?cat=wigs" className="hover:text-primary-foreground transition-colors">Wigs</Link>
+            <Link to="/shop?cat=bundles" className="hover:text-primary-foreground transition-colors">Bundles</Link>
           </div>
         </div>
         <div>
