@@ -1,6 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "@/assets/logo.jpg";
-import { toast } from "sonner";
 
 const TikTokIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
@@ -14,67 +13,81 @@ const InstagramIcon = () => (
   </svg>
 );
 
-const Footer = () => (
-  <footer className="bg-primary text-primary-foreground">
-    <div className="container mx-auto px-4 py-16">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-        <div>
-          <Link to="/">
-            <img src={logo} alt="Beats by Siba" className="h-20 w-auto brightness-0 invert mb-4 hover:opacity-80 transition-opacity cursor-pointer" />
-          </Link>
-          <p className="font-body text-sm text-primary-foreground/60 leading-relaxed">
-            Premium, high quality hair made to elevate your look. Quality is the standard, confidence is the result.
+const Footer = () => {
+  const navigate = useNavigate();
+
+  return (
+    <footer className="bg-primary text-primary-foreground relative">
+      <div className="container mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+          <div>
+            <Link to="/">
+              <img src={logo} alt="Beats by Siba" className="h-20 w-auto brightness-0 invert mb-4 hover:opacity-80 transition-opacity cursor-pointer" />
+            </Link>
+            <p className="font-body text-sm text-primary-foreground/60 leading-relaxed">
+              Premium, high quality hair made to elevate your look. Quality is the standard, confidence is the result.
+            </p>
+            <div className="flex gap-4 mt-4">
+              <a
+                href="https://www.tiktok.com/@beats.by.siba?_r=1&_t=ZS-93rBYe8tmhZ"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary-foreground/60 hover:text-primary-foreground transition-colors"
+              >
+                <TikTokIcon />
+              </a>
+              <a
+                href="https://www.instagram.com/siba_mqiks?igsh=MXhjMzFpY2t5Z3YzYQ%3D%3D&utm_source=qr"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary-foreground/60 hover:text-primary-foreground transition-colors"
+              >
+                <InstagramIcon />
+              </a>
+            </div>
+          </div>
+          <div>
+            <h4 className="font-heading text-lg mb-4">Shop</h4>
+            <div className="flex flex-col gap-2 font-body text-sm text-primary-foreground/60">
+              <Link to="/shop?cat=wigs" className="hover:text-primary-foreground transition-colors">Wigs</Link>
+              <Link to="/shop?cat=bundles" className="hover:text-primary-foreground transition-colors">Bundles</Link>
+            </div>
+          </div>
+          <div>
+            <h4 className="font-heading text-lg mb-4">Help</h4>
+            <div className="flex flex-col gap-2 font-body text-sm text-primary-foreground/60">
+              <Link to="/faq" className="hover:text-primary-foreground transition-colors">FAQs</Link>
+              <Link to="/hair-care" className="hover:text-primary-foreground transition-colors">Hair Care Guide</Link>
+              <Link to="/track-order" className="hover:text-primary-foreground transition-colors">Track Your Order</Link>
+              <Link to="/contact" className="hover:text-primary-foreground transition-colors">Contact Us</Link>
+            </div>
+          </div>
+          <div>
+            <h4 className="font-heading text-lg mb-4">Contact</h4>
+            <div className="flex flex-col gap-2 font-body text-sm text-primary-foreground/60">
+              <span>📞 +27 624728033</span>
+              <span>✉️ blessingmqikela8@gmail.com</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-12 pt-8 border-t border-primary-foreground/10 text-center relative">
+          <p className="font-body text-xs text-primary-foreground/40 tracking-wider">
+            © 2026 Beats by Siba – Hair Edition. All rights reserved.
           </p>
-          <div className="flex gap-4 mt-4">
-            <a
-              href="https://www.tiktok.com/@beats.by.siba?_r=1&_t=ZS-93rBYe8tmhZ"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary-foreground/60 hover:text-primary-foreground transition-colors"
-            >
-              <TikTokIcon />
-            </a>
-            <a
-              href="https://www.instagram.com/siba_mqiks?igsh=MXhjMzFpY2t5Z3YzYQ%3D%3D&utm_source=qr"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary-foreground/60 hover:text-primary-foreground transition-colors"
-            >
-              <InstagramIcon />
-            </a>
-          </div>
-        </div>
-        <div>
-          <h4 className="font-heading text-lg mb-4">Shop</h4>
-          <div className="flex flex-col gap-2 font-body text-sm text-primary-foreground/60">
-            <Link to="/shop?cat=wigs" className="hover:text-primary-foreground transition-colors">Wigs</Link>
-            <Link to="/shop?cat=bundles" className="hover:text-primary-foreground transition-colors">Bundles</Link>
-          </div>
-        </div>
-        <div>
-          <h4 className="font-heading text-lg mb-4">Help</h4>
-          <div className="flex flex-col gap-2 font-body text-sm text-primary-foreground/60">
-            <Link to="/faq" className="hover:text-primary-foreground transition-colors">FAQs</Link>
-            <Link to="/hair-care" className="hover:text-primary-foreground transition-colors">Hair Care Guide</Link>
-            <Link to="/track-order" className="hover:text-primary-foreground transition-colors">Track Your Order</Link>
-            <Link to="/contact" className="hover:text-primary-foreground transition-colors">Contact Us</Link>
-          </div>
-        </div>
-        <div>
-          <h4 className="font-heading text-lg mb-4">Contact</h4>
-          <div className="flex flex-col gap-2 font-body text-sm text-primary-foreground/60">
-            <span>📞 +27 624728033</span>
-            <span>✉️ blessingmqikela8@gmail.com</span>
-          </div>
+
+          {/* Hidden admin access dot — invisible to customers */}
+          <button
+            onClick={() => navigate("/admin/login")}
+            aria-hidden="true"
+            tabIndex={-1}
+            className="absolute bottom-0 right-0 w-3 h-3 opacity-0 hover:opacity-100 rounded-full bg-primary-foreground/20 transition-opacity duration-300 cursor-pointer"
+            title=""
+          />
         </div>
       </div>
-      <div className="mt-12 pt-8 border-t border-primary-foreground/10 text-center">
-        <p className="font-body text-xs text-primary-foreground/40 tracking-wider">
-          © 2026 Beats by Siba – Hair Edition. All rights reserved.
-        </p>
-      </div>
-    </div>
-  </footer>
-);
+    </footer>
+  );
+};
 
 export default Footer;
