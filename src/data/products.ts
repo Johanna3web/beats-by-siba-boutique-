@@ -11,9 +11,11 @@ import wig13x4Lace from "@/assets/wig-13x4-lace.jpg";
 import wigBurmeseMain from "@/assets/wig-burmese-main.jpg";
 import wigBurmeseSide from "@/assets/wig-burmese-side.jpg";
 import wigBurmeseCap from "@/assets/wig-burmese-cap.jpg";
+import wigBurmeseVideo from "@/assets/wig-burmese-video.mp4";
 
 import wigBodywaveMain from "@/assets/wig-bodywave-main.jpg";
 import wigBodywaveSide from "@/assets/wig-bodywave-side.jpg";
+import wigBodywaveVideo from "@/assets/wig-bodywave-video.mp4";
 
 import wigColourPlum from "@/assets/wig-colour-plum.jpg";
 import wigColourOmbreDark from "@/assets/wig-colour-ombre-dark.jpg";
@@ -35,6 +37,7 @@ export interface Product {
   images: string[];
   image: string;
   description: string;
+  video?: string;
   lengths?: LengthVariant[];
   features: string[];
 }
@@ -80,6 +83,7 @@ export const products: Product[] = [
     price: 3750,
     image: wigBodywaveMain,
     images: [wigBodywaveMain, wigBodywaveSide],
+    video: wigBodywaveVideo,
     description:
       "Gorgeous body wave wig with an invisible 5x5 HD lace closure that melts seamlessly into any skin tone. Features soft, flowing waves with incredible volume and movement. Pre-plucked hairline with baby hairs for a flawless, undetectable finish that looks completely natural.",
     lengths: [
@@ -144,6 +148,7 @@ export const products: Product[] = [
     price: 4450,
     image: wigBurmeseMain,
     images: [wigBurmeseMain, wigBurmeseSide, wigBurmeseCap],
+    video: wigBurmeseVideo,
     description:
       "Luxurious Burmese curls with a full 13x4 HD lace frontal for a voluminous, natural curly look. Pre-bleached knots and pre-plucked hairline for an undetectable, flawless finish. The soft, bouncy curls hold their pattern beautifully and can be restyled with ease.",
     lengths: [
