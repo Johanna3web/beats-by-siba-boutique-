@@ -40,7 +40,7 @@ const ProductDetail = () => {
           </Link>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <ProductGallery images={product.images} name={product.name} />
+            <ProductGallery images={product.images} name={product.name} video={product.video} />
 
             <div className="flex flex-col justify-center">
               <p className="font-body text-[10px] uppercase tracking-[0.2em] text-gold mb-2">{product.category}</p>
