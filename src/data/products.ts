@@ -10,7 +10,6 @@ import wig13x4Lace from "@/assets/wig-13x4-lace.jpg";
 
 import wigBurmeseMain from "@/assets/wig-burmese-main.jpg";
 import wigBurmeseSide from "@/assets/wig-burmese-side.jpg";
-import wigBurmeseCap from "@/assets/wig-burmese-cap.jpg";
 import wigBurmeseVideo from "@/assets/wig-burmese-video.mp4";
 
 import wigBodywaveMain from "@/assets/wig-bodywave-main.jpg";
