@@ -174,8 +174,6 @@ export const products: Product[] = [
       "Can Be Restyled",
     ],
   },
-  {
-    id: "premium-5x5-hd-lace-bodywave-wig",
     name: "Premium Selection 5x5 HD Lace Bodywave Wig",
     category: "wigs",
     price: 3750,
