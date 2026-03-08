@@ -142,6 +142,7 @@ export const products: Product[] = [
     ],
   },
   {
+    id: "premium-5x5-hd-lace-colour-wig",
     name: "Premium Selection 5x5 HD Lace Colour Wig",
     category: "wigs",
     price: 3750,
