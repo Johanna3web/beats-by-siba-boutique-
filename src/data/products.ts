@@ -147,7 +147,7 @@ export const products: Product[] = [
     category: "wigs",
     price: 4450,
     image: wigBurmeseMain,
-    images: [wigBurmeseMain, wigBurmeseSide],
+    images: [wigBurmeseMain, wigBurmeseSide, wigBurmeseCap],
     video: wigBurmeseVideo,
     description:
       "Luxurious Burmese curls with a full 13x4 HD lace frontal for a voluminous, natural curly look. Pre-bleached knots and pre-plucked hairline for an undetectable, flawless finish. The soft, bouncy curls hold their pattern beautifully and can be restyled with ease.",
