@@ -1,6 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { Resend } from "npm:resend@2.0.0";
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const escapeHtml = (text: string): string => {
@@ -25,6 +24,8 @@ const corsHeaders = {
   "Access-Control-Allow-Headers":
     "authorization, x-client-info, apikey, content-type",
 };
+
+const WEB3FORMS_ACCESS_KEY = "ef41f083-3894-4312-9486-312e5e437624";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -55,25 +56,25 @@ serve(async (req) => {
 
     if (error) throw error;
 
-    // Send email notification
-    const resendKey = Deno.env.get("RESEND_API_KEY");
-    if (resendKey) {
-      const resend = new Resend(resendKey);
-      const emailResult = await resend.emails.send({
-        from: "Beats by Siba <onboarding@resend.dev>",
-        to: ["blessingmqikela8@gmail.com"],
+    // Send email notification via Web3Forms
+    const web3Response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_ACCESS_KEY,
         subject: `New Contact Message from ${escapeHtml(name)}`,
-        html: `
-          <h2>New Contact Form Submission</h2>
-          <p><strong>Name:</strong> ${escapeHtml(name)}</p>
-          <p><strong>Email:</strong> ${escapeHtml(email)}</p>
-          <p><strong>Message:</strong></p>
-          <p>${escapeHtml(message)}</p>
-        `,
-      });
-      console.log("Resend email result:", JSON.stringify(emailResult));
-    } else {
-      console.warn("RESEND_API_KEY not configured — skipping email notification");
+        from_name: "Beats by Siba",
+        name: escapeHtml(name),
+        email: escapeHtml(email),
+        message: escapeHtml(message),
+      }),
+    });
+
+    const web3Result = await web3Response.json();
+    console.log("Web3Forms result:", JSON.stringify(web3Result));
+
+    if (!web3Response.ok) {
+      console.error("Web3Forms error:", web3Result);
     }
 
     return new Response(JSON.stringify({ success: true }), {
