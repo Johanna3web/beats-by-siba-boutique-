@@ -4,6 +4,7 @@ import {
   MessageSquare,
   Users,
   LogOut,
+  ExternalLink,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
@@ -69,6 +70,14 @@ const AdminSidebar = () => {
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <a href="/" className="hover:bg-muted/50">
+                <ExternalLink className="mr-2 h-4 w-4" />
+                {!collapsed && <span>Back to Website</span>}
+              </a>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton onClick={signOut} className="text-destructive hover:bg-destructive/10">
               <LogOut className="mr-2 h-4 w-4" />
