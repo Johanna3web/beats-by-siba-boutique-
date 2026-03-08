@@ -70,6 +70,14 @@ const AdminSidebar = () => {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <a href="/" className="hover:bg-muted/50">
+                <ExternalLink className="mr-2 h-4 w-4" />
+                {!collapsed && <span>Back to Website</span>}
+              </a>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
             <SidebarMenuButton onClick={signOut} className="text-destructive hover:bg-destructive/10">
               <LogOut className="mr-2 h-4 w-4" />
               {!collapsed && <span>Sign Out</span>}
