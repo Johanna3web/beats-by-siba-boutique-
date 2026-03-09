@@ -18,12 +18,14 @@ const SA_PROVINCES = [
   "Western Cape",
 ];
 
-const SHIPPING_COST = 150; // R150 flat rate
+const SHIPPING_URBAN = 180;
+const SHIPPING_RURAL = 250;
 
 const Checkout = () => {
   const { items, total, clearCart } = useCart();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [areaType, setAreaType] = useState<"urban" | "rural">("urban");
   const [form, setForm] = useState({
     customerName: "",
     customerEmail: "",
@@ -34,7 +36,8 @@ const Checkout = () => {
     shippingPostalCode: "",
   });
 
-  const grandTotal = total + SHIPPING_COST;
+  const shippingCost = areaType === "urban" ? SHIPPING_URBAN : SHIPPING_RURAL;
+  const grandTotal = total + shippingCost;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -48,7 +51,7 @@ const Checkout = () => {
     try {
       const payload = {
         ...form,
-        shippingCost: SHIPPING_COST,
+        shippingCost,
         items: items.map((item) => {
           const unitPrice = item.selectedLength
             ? item.product.lengths?.find((l) => l.length === item.selectedLength)?.price ?? item.product.price
@@ -200,6 +203,34 @@ const Checkout = () => {
                   ))}
                 </select>
               </div>
+
+              <div>
+                <label className="font-body text-xs uppercase tracking-[0.15em] block mb-2">Area Type *</label>
+                <div className="flex gap-4">
+                  <button
+                    type="button"
+                    onClick={() => setAreaType("urban")}
+                    className={`flex-1 py-3 border font-body text-xs uppercase tracking-[0.15em] transition-colors ${
+                      areaType === "urban"
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "border-border hover:border-foreground"
+                    }`}
+                  >
+                    Urban — R{SHIPPING_URBAN}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setAreaType("rural")}
+                    className={`flex-1 py-3 border font-body text-xs uppercase tracking-[0.15em] transition-colors ${
+                      areaType === "rural"
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "border-border hover:border-foreground"
+                    }`}
+                  >
+                    Rural — R{SHIPPING_RURAL}
+                  </button>
+                </div>
+              </div>
             </form>
 
             {/* Order Summary */}
@@ -235,7 +266,7 @@ const Checkout = () => {
                 </div>
                 <div className="flex justify-between font-body text-sm">
                   <span>Shipping</span>
-                  <span>R{SHIPPING_COST.toLocaleString()}</span>
+                  <span>R{shippingCost.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between font-heading text-2xl pt-2 border-t border-border">
                   <span>Total</span>
