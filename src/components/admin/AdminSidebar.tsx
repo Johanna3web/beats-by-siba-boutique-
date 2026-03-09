@@ -5,7 +5,10 @@ import {
   Users,
   LogOut,
   ExternalLink,
+  KeyRound,
 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
 import { useAdmin } from "@/hooks/useAdmin";
