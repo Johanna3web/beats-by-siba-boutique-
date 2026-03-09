@@ -1,1 +1,7 @@
 project_id = "cdkdnosmsxnuugljuvtw"
+
+[functions.payfast-notify]
+verify_jwt = false
+
+[functions.create-payfast-payment]
+verify_jwt = false
