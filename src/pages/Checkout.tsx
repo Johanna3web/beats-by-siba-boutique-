@@ -51,7 +51,7 @@ const Checkout = () => {
     try {
       const payload = {
         ...form,
-        shippingCost: SHIPPING_COST,
+        shippingCost,
         items: items.map((item) => {
           const unitPrice = item.selectedLength
             ? item.product.lengths?.find((l) => l.length === item.selectedLength)?.price ?? item.product.price
