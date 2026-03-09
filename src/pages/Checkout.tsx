@@ -203,6 +203,34 @@ const Checkout = () => {
                   ))}
                 </select>
               </div>
+
+              <div>
+                <label className="font-body text-xs uppercase tracking-[0.15em] block mb-2">Area Type *</label>
+                <div className="flex gap-4">
+                  <button
+                    type="button"
+                    onClick={() => setAreaType("urban")}
+                    className={`flex-1 py-3 border font-body text-xs uppercase tracking-[0.15em] transition-colors ${
+                      areaType === "urban"
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "border-border hover:border-foreground"
+                    }`}
+                  >
+                    Urban — R{SHIPPING_URBAN}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setAreaType("rural")}
+                    className={`flex-1 py-3 border font-body text-xs uppercase tracking-[0.15em] transition-colors ${
+                      areaType === "rural"
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "border-border hover:border-foreground"
+                    }`}
+                  >
+                    Rural — R{SHIPPING_RURAL}
+                  </button>
+                </div>
+              </div>
             </form>
 
             {/* Order Summary */}
