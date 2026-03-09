@@ -5,7 +5,10 @@ import {
   Users,
   LogOut,
   ExternalLink,
+  KeyRound,
 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
 import { useAdmin } from "@/hooks/useAdmin";
@@ -76,6 +79,23 @@ const AdminSidebar = () => {
                 <ExternalLink className="mr-2 h-4 w-4" />
                 {!collapsed && <span>Back to Website</span>}
               </a>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              onClick={async () => {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user?.email) return;
+                const { error } = await supabase.auth.resetPasswordForEmail(user.email, {
+                  redirectTo: `${window.location.origin}/admin/reset-password`,
+                });
+                if (error) toast.error(error.message);
+                else toast.success("Password reset link sent to your email!");
+              }}
+              className="hover:bg-muted/50"
+            >
+              <KeyRound className="mr-2 h-4 w-4" />
+              {!collapsed && <span>Change Password</span>}
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>

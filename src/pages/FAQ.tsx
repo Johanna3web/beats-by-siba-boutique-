@@ -13,8 +13,8 @@ const faqs = [
   { q: "How long does the hair last?", a: "With proper care, our hair can last 12 months to 2 years or more. We provide a detailed Hair Care Guide to help you maintain your investment." },
   { q: "Can the hair be dyed, bleached, or heat styled?", a: "Absolutely. Our virgin human hair can be dyed, bleached, curled, straightened, and styled just like your natural hair. We recommend professional colouring for the best results." },
   { q: "How should I care for my hair to maintain quality?", a: "Use sulfate-free shampoo and conditioner, minimise heat styling, sleep on a satin pillowcase, and deep condition regularly. Visit our Hair Care Guide for detailed instructions." },
-   { q: "How long does shipping take?", a: "Orders are processed within 1–2 business days. Shipping fees apply to all orders within South Africa and internationally, with rates calculated at checkout. Delivery takes 3–7 business days locally and 7–21 business days internationally." },
-   { q: "Do you offer returns or exchanges?", a: "All sales are final. We do not accept returns or exchanges, so please review your order carefully before completing your purchase. Custom orders are non-refundable. If your item arrives damaged or incorrect, contact us within 48 hours of delivery and we will gladly resolve the matter." },
+   { q: "How long does shipping take?", a: "Orders are processed within 2–3 business days. Shipping fees apply to all orders within South Africa, with rates calculated at checkout. Delivery takes 3–7 business days." },
+   { q: "Do you offer returns or exchanges?", a: "All sales are final. We do not accept returns or exchanges, so please review your order carefully before completing your purchase. Custom orders are non-refundable." },
   { q: "How can I track my order?", a: "Once your order ships, you'll receive a tracking number via email. You can also visit our Track Your Order page and enter your order number or tracking number to see live delivery status." },
 ];
 
