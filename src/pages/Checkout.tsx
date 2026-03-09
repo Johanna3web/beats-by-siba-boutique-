@@ -18,7 +18,8 @@ const SA_PROVINCES = [
   "Western Cape",
 ];
 
-const SHIPPING_COST = 150; // R150 flat rate
+const SHIPPING_URBAN = 180;
+const SHIPPING_RURAL = 250;
 
 const Checkout = () => {
   const { items, total, clearCart } = useCart();
