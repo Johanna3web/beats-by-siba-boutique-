@@ -25,6 +25,7 @@ const Checkout = () => {
   const { items, total, clearCart } = useCart();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [areaType, setAreaType] = useState<"urban" | "rural">("urban");
   const [form, setForm] = useState({
     customerName: "",
     customerEmail: "",
@@ -35,7 +36,8 @@ const Checkout = () => {
     shippingPostalCode: "",
   });
 
-  const grandTotal = total + SHIPPING_COST;
+  const shippingCost = areaType === "urban" ? SHIPPING_URBAN : SHIPPING_RURAL;
+  const grandTotal = total + shippingCost;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
