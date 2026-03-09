@@ -53,7 +53,7 @@ const AdminDashboard = () => {
   }, []);
 
   const formatCurrency = (cents: number) =>
-    `R${(cents / 100).toLocaleString("en-ZA", { minimumFractionDigits: 2 })}`;
+    `R${(cents / 100).toLocaleString("en-ZA", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
   const statusColor = (s: string) => {
     switch (s) {

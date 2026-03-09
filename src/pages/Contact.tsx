@@ -58,10 +58,9 @@ const Contact = () => {
               <div className="pt-8 border-t border-border">
                 <h3 className="font-heading text-2xl mb-4">Shipping & Returns</h3>
                 <div className="font-body text-sm text-muted-foreground space-y-3 leading-relaxed">
-                  <p>Orders are processed within 1–2 business days. Shipping fees apply to all orders within South Africa and internationally, with rates calculated at checkout.</p>
-                  <p>Delivery: 3–7 business days locally, 7–21 business days internationally.</p>
+                  <p>Orders are processed within 2–3 business days. Shipping fees apply to all orders within South Africa, with rates calculated at checkout.</p>
+                  <p>Delivery: 3–7 business days</p>
                   <p>Please note that all sales are final. We do not accept returns or exchanges, so we encourage you to review your order carefully before completing your purchase. Custom orders are non-refundable.</p>
-                  <p>In the unlikely event that your item arrives damaged or incorrect, please contact us within 48 hours of delivery and we will gladly resolve the matter for you.</p>
                 </div>
               </div>
             </div>

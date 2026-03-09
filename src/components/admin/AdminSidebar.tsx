@@ -82,6 +82,23 @@ const AdminSidebar = () => {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
+            <SidebarMenuButton
+              onClick={async () => {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user?.email) return;
+                const { error } = await supabase.auth.resetPasswordForEmail(user.email, {
+                  redirectTo: `${window.location.origin}/admin/reset-password`,
+                });
+                if (error) toast.error(error.message);
+                else toast.success("Password reset link sent to your email!");
+              }}
+              className="hover:bg-muted/50"
+            >
+              <KeyRound className="mr-2 h-4 w-4" />
+              {!collapsed && <span>Change Password</span>}
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
             <SidebarMenuButton onClick={signOut} className="text-destructive hover:bg-destructive/10">
               <LogOut className="mr-2 h-4 w-4" />
               {!collapsed && <span>Sign Out</span>}
