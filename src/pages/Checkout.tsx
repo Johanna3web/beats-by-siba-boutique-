@@ -238,7 +238,7 @@ const Checkout = () => {
                 </div>
                 <div className="flex justify-between font-body text-sm">
                   <span>Shipping</span>
-                  <span>R{SHIPPING_COST.toLocaleString()}</span>
+                  <span>R{shippingCost.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between font-heading text-2xl pt-2 border-t border-border">
                   <span>Total</span>
