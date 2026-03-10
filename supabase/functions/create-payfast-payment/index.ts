@@ -1,7 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
-import { createHash } from "https://deno.land/std@0.177.0/hash/mod.ts";
-
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -29,7 +27,7 @@ const checkoutSchema = z.object({
   shippingCost: z.number().min(0).default(0),
 });
 
-function generatePayFastSignature(data: Record<string, string>, passphrase: string): string {
+async function generatePayFastSignature(data: Record<string, string>, passphrase: string): Promise<string> {
   const paramString = Object.keys(data)
     .filter((key) => data[key] !== "" && key !== "signature")
     .sort()
@@ -37,9 +35,11 @@ function generatePayFastSignature(data: Record<string, string>, passphrase: stri
     .join("&");
 
   const withPassphrase = paramString + `&passphrase=${encodeURIComponent(passphrase).replace(/%20/g, "+")}`;
-  const hash = createHash("md5");
-  hash.update(withPassphrase);
-  return hash.toString();
+  const encoder = new TextEncoder();
+  const dataBuffer = encoder.encode(withPassphrase);
+  const hashBuffer = await crypto.subtle.digest("MD5", dataBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
 Deno.serve(async (req) => {
@@ -139,7 +139,7 @@ Deno.serve(async (req) => {
       custom_str1: order.order_number,
     };
 
-    paymentData.signature = generatePayFastSignature(paymentData, PASSPHRASE);
+    paymentData.signature = await generatePayFastSignature(paymentData, PASSPHRASE);
 
     // Sandbox URL
     const paymentUrl = "https://sandbox.payfast.co.za/eng/process";
