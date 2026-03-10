@@ -1,5 +1,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
+import SparkMD5 from "https://esm.sh/spark-md5@3.0.2";
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -27,7 +29,7 @@ const checkoutSchema = z.object({
   shippingCost: z.number().min(0).default(0),
 });
 
-async function generatePayFastSignature(data: Record<string, string>, passphrase: string): Promise<string> {
+function generatePayFastSignature(data: Record<string, string>, passphrase: string): string {
   const paramString = Object.keys(data)
     .filter((key) => data[key] !== "" && key !== "signature")
     .sort()
@@ -35,11 +37,7 @@ async function generatePayFastSignature(data: Record<string, string>, passphrase
     .join("&");
 
   const withPassphrase = paramString + `&passphrase=${encodeURIComponent(passphrase).replace(/%20/g, "+")}`;
-  const encoder = new TextEncoder();
-  const dataBuffer = encoder.encode(withPassphrase);
-  const hashBuffer = await crypto.subtle.digest("MD5", dataBuffer);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+  return SparkMD5.hash(withPassphrase);
 }
 
 Deno.serve(async (req) => {
@@ -59,13 +57,11 @@ Deno.serve(async (req) => {
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-    // Prices are stored as whole Rands (integers)
     const subtotal = parsed.items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
     const total = subtotal + parsed.shippingCost;
 
     const { data: orderNumber } = await supabase.rpc("generate_order_number");
 
-    // Get user_id from auth header if present
     let userId: string | null = null;
     const authHeader = req.headers.get("Authorization");
     if (authHeader?.startsWith("Bearer ")) {
@@ -76,7 +72,6 @@ Deno.serve(async (req) => {
       userId = data?.user?.id ?? null;
     }
 
-    // Create order
     const { data: order, error: orderError } = await supabase
       .from("orders")
       .insert({
@@ -101,7 +96,6 @@ Deno.serve(async (req) => {
 
     if (orderError) throw orderError;
 
-    // Insert order items
     const orderItems = parsed.items.map((item) => ({
       order_id: order.id,
       product_id: item.productId,
@@ -115,13 +109,11 @@ Deno.serve(async (req) => {
     const { error: itemsError } = await supabase.from("order_items").insert(orderItems);
     if (itemsError) throw itemsError;
 
-    // Build PayFast payment data
-    const origin = req.headers.get("origin") || "https://beats-by-siba-boutique.lovable.app";
+    const origin = req.headers.get("origin") || "https://beats-by-siba-boutique.vercel.app";
     const returnUrl = `${origin}/payment-success?order=${order.order_number}`;
     const cancelUrl = `${origin}/payment-cancel?order=${order.order_number}`;
     const notifyUrl = `${SUPABASE_URL}/functions/v1/payfast-notify`;
 
-    // PayFast expects amount as "1234.00" (Rands with 2 decimals)
     const amountFormatted = total.toFixed(2);
 
     const paymentData: Record<string, string> = {
@@ -139,10 +131,10 @@ Deno.serve(async (req) => {
       custom_str1: order.order_number,
     };
 
-    paymentData.signature = await generatePayFastSignature(paymentData, PASSPHRASE);
+    paymentData.signature = generatePayFastSignature(paymentData, PASSPHRASE);
 
-    // Sandbox URL
-    const paymentUrl = "https://sandbox.payfast.co.za/eng/process";
+    // Live URL
+    const paymentUrl = "https://www.payfast.co.za/eng/process";
 
     return new Response(
       JSON.stringify({ paymentUrl, paymentData, orderNumber: order.order_number, orderId: order.id }),

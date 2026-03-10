@@ -1,62 +1,151 @@
-import Navbar from "@/components/Navbar";
-import HeroSection from "@/components/HeroSection";
-import FeaturedProducts from "@/components/FeaturedProducts";
-import Footer from "@/components/Footer";
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import wigMain from "@/assets/wig-straight-main.jpg";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
+import SparkMD5 from "https://esm.sh/spark-md5@3.0.2";
 
-const Index = () => (
-  <div className="min-h-screen">
-    <Navbar />
-    <HeroSection />
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
+};
 
-    {/* Brand message */}
-    <section className="py-24 bg-cream">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="max-w-3xl mx-auto text-center"
-        >
-          <p className="font-body text-xs uppercase tracking-[0.3em] text-gold mb-6">Our Promise</p>
-          <p className="font-heading text-2xl md:text-3xl leading-relaxed italic text-foreground/80">
-            "Beats by Siba Hair Edition is all about premium, high quality hair made to elevate your look. Our collections are carefully sourced for softness, longevity, and a flawless natural finish. Whether you're going for everyday beauty or full glam, our hair delivers luxury you can see and feel."
-          </p>
-          <div className="w-16 h-px bg-gold mx-auto mt-8" />
-        </motion.div>
-      </div>
-    </section>
+const checkoutSchema = z.object({
+  customerName: z.string().trim().min(1).max(200),
+  customerEmail: z.string().trim().email().max(255),
+  customerPhone: z.string().trim().max(20).optional(),
+  shippingAddress: z.string().trim().min(1).max(500),
+  shippingCity: z.string().trim().min(1).max(100),
+  shippingProvince: z.string().trim().min(1).max(100),
+  shippingPostalCode: z.string().trim().min(1).max(10),
+  items: z.array(
+    z.object({
+      productId: z.string(),
+      productName: z.string().max(200),
+      productImage: z.string().optional(),
+      quantity: z.number().int().min(1).max(99),
+      unitPrice: z.number().min(0),
+      selectedLength: z.string().optional(),
+    })
+  ).min(1).max(50),
+  shippingCost: z.number().min(0).default(0),
+});
 
-    <FeaturedProducts />
+function generatePayFastSignature(data: Record<string, string>, passphrase: string): string {
+  const paramString = Object.keys(data)
+    .filter((key) => data[key] !== "" && key !== "signature")
+    .sort()
+    .map((key) => `${key}=${encodeURIComponent(data[key]).replace(/%20/g, "+")}`)
+    .join("&");
 
-    {/* Categories */}
-    <section className="py-24 bg-secondary">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <p className="font-body text-xs uppercase tracking-[0.3em] text-gold mb-3">Collections</p>
-          <h2 className="font-heading text-4xl md:text-5xl">Shop by Category</h2>
-        </motion.div>
-        <div className="grid grid-cols-1 gap-6 max-w-2xl mx-auto">
-          <Link to="/shop?cat=wigs" className="group relative aspect-[4/3] overflow-hidden">
-            <img src={wigMain} alt="Wigs" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-            <div className="absolute inset-0 bg-primary/40 group-hover:bg-primary/30 transition-colors flex items-center justify-center">
-              <span className="font-heading text-4xl text-primary-foreground">Wigs</span>
-            </div>
-          </Link>
-        </div>
-      </div>
-    </section>
+  const withPassphrase = paramString + `&passphrase=${encodeURIComponent(passphrase).replace(/%20/g, "+")}`;
+  return SparkMD5.hash(withPassphrase);
+}
 
-    <Footer />
-  </div>
-);
+Deno.serve(async (req) => {
+  if (req.method === "OPTIONS") {
+    return new Response(null, { headers: corsHeaders });
+  }
 
-export default Index;
+  try {
+    const body = await req.json();
+    const parsed = checkoutSchema.parse(body);
+
+    const MERCHANT_ID = Deno.env.get("PAYFAST_MERCHANT_ID")!;
+    const MERCHANT_KEY = Deno.env.get("PAYFAST_MERCHANT_KEY")!;
+    const PASSPHRASE = Deno.env.get("PAYFAST_PASSPHRASE")!;
+    const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
+    const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+
+    const subtotal = parsed.items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
+    const total = subtotal + parsed.shippingCost;
+
+    const { data: orderNumber } = await supabase.rpc("generate_order_number");
+
+    let userId: string | null = null;
+    const authHeader = req.headers.get("Authorization");
+    if (authHeader?.startsWith("Bearer ")) {
+      const anonClient = createClient(SUPABASE_URL, Deno.env.get("SUPABASE_ANON_KEY")!, {
+        global: { headers: { Authorization: authHeader } },
+      });
+      const { data } = await anonClient.auth.getUser();
+      userId = data?.user?.id ?? null;
+    }
+
+    const { data: order, error: orderError } = await supabase
+      .from("orders")
+      .insert({
+        order_number: orderNumber,
+        user_id: userId,
+        customer_name: parsed.customerName,
+        customer_email: parsed.customerEmail,
+        customer_phone: parsed.customerPhone || null,
+        shipping_address: parsed.shippingAddress,
+        shipping_city: parsed.shippingCity,
+        shipping_province: parsed.shippingProvince,
+        shipping_postal_code: parsed.shippingPostalCode,
+        shipping_country: "South Africa",
+        subtotal,
+        shipping_cost: parsed.shippingCost,
+        total,
+        payment_status: "pending",
+        order_status: "processing",
+      })
+      .select("id, order_number")
+      .single();
+
+    if (orderError) throw orderError;
+
+    const orderItems = parsed.items.map((item) => ({
+      order_id: order.id,
+      product_id: item.productId,
+      product_name: item.productName + (item.selectedLength ? ` (${item.selectedLength})` : ""),
+      product_image: item.productImage || null,
+      quantity: item.quantity,
+      unit_price: item.unitPrice,
+      total_price: item.unitPrice * item.quantity,
+    }));
+
+    const { error: itemsError } = await supabase.from("order_items").insert(orderItems);
+    if (itemsError) throw itemsError;
+
+    const origin = req.headers.get("origin") || "https://beats-by-siba-boutique.vercel.app";
+    const returnUrl = `${origin}/payment-success?order=${order.order_number}`;
+    const cancelUrl = `${origin}/payment-cancel?order=${order.order_number}`;
+    const notifyUrl = `${SUPABASE_URL}/functions/v1/payfast-notify`;
+
+    const amountFormatted = total.toFixed(2);
+
+    const paymentData: Record<string, string> = {
+      merchant_id: MERCHANT_ID,
+      merchant_key: MERCHANT_KEY,
+      return_url: returnUrl,
+      cancel_url: cancelUrl,
+      notify_url: notifyUrl,
+      name_first: parsed.customerName.split(" ")[0] || parsed.customerName,
+      name_last: parsed.customerName.split(" ").slice(1).join(" ") || "",
+      email_address: parsed.customerEmail,
+      m_payment_id: order.id,
+      amount: amountFormatted,
+      item_name: `Order ${order.order_number}`,
+      custom_str1: order.order_number,
+    };
+
+    paymentData.signature = generatePayFastSignature(paymentData, PASSPHRASE);
+
+    // Live URL
+    const paymentUrl = "https://www.payfast.co.za/eng/process";
+
+    return new Response(
+      JSON.stringify({ paymentUrl, paymentData, orderNumber: order.order_number, orderId: order.id }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
+  } catch (error) {
+    console.error("PayFast payment error:", error);
+    const message = error instanceof z.ZodError ? error.errors : (error as Error).message || "Payment creation failed";
+    return new Response(
+      JSON.stringify({ error: message }),
+      { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
+  }
+});
