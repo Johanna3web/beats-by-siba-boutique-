@@ -139,7 +139,7 @@ Deno.serve(async (req) => {
       custom_str1: order.order_number,
     };
 
-    paymentData.signature = generatePayFastSignature(paymentData, PASSPHRASE);
+    paymentData.signature = await generatePayFastSignature(paymentData, PASSPHRASE);
 
     // Sandbox URL
     const paymentUrl = "https://sandbox.payfast.co.za/eng/process";
