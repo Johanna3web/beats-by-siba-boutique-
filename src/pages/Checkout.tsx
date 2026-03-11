@@ -28,8 +28,8 @@ const URBAN_POSTAL_CODES = new Set([
   ...Array.from({length: 100}, (_, i) => String(1600 + i)),
   ...Array.from({length: 50}, (_, i) => String(1400 + i)),
   // Pretoria
-  ...Array.from({length: 100}, (_, i) => String(0001 + i).padStart(4, '0')),
-  ...Array.from({length: 50}, (_, i) => String(0100 + i).padStart(4, '0')),
+  ...Array.from({length: 100}, (_, i) => String(1 + i).padStart(4, '0')),
+  ...Array.from({length: 50}, (_, i) => String(100 + i).padStart(4, '0')),
   // Cape Town / Western Cape
   ...Array.from({length: 100}, (_, i) => String(7400 + i)),
   ...Array.from({length: 100}, (_, i) => String(7500 + i)),
@@ -52,7 +52,7 @@ const URBAN_POSTAL_CODES = new Set([
   // Nelspruit
   ...Array.from({length: 30}, (_, i) => String(1200 + i)),
   // Polokwane
-  ...Array.from({length: 30}, (_, i) => String(0699 + i).padStart(4, '0')),
+  ...Array.from({length: 30}, (_, i) => String(699 + i).padStart(4, '0')),
   // Specific known urban codes
   "7441", "7784", "7945", "8001", "8005", "7925", "7130", "7140",
   "7441", "7580", "7550", "7560", "7570", "7100", "7110", "7120",
