@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -21,11 +21,59 @@ const SA_PROVINCES = [
 const SHIPPING_URBAN = 180;
 const SHIPPING_RURAL = 250;
 
+// Major urban postal code ranges in South Africa
+const URBAN_POSTAL_CODES = new Set([
+  // Johannesburg / Gauteng
+  ...Array.from({length: 100}, (_, i) => String(2000 + i)),
+  ...Array.from({length: 100}, (_, i) => String(1600 + i)),
+  ...Array.from({length: 50}, (_, i) => String(1400 + i)),
+  // Pretoria
+  ...Array.from({length: 100}, (_, i) => String(0001 + i).padStart(4, '0')),
+  ...Array.from({length: 50}, (_, i) => String(0100 + i).padStart(4, '0')),
+  // Cape Town / Western Cape
+  ...Array.from({length: 100}, (_, i) => String(7400 + i)),
+  ...Array.from({length: 100}, (_, i) => String(7500 + i)),
+  ...Array.from({length: 100}, (_, i) => String(7600 + i)),
+  ...Array.from({length: 100}, (_, i) => String(7700 + i)),
+  ...Array.from({length: 100}, (_, i) => String(7800 + i)),
+  ...Array.from({length: 100}, (_, i) => String(7900 + i)),
+  ...Array.from({length: 100}, (_, i) => String(8000 + i)),
+  // Durban / KZN
+  ...Array.from({length: 100}, (_, i) => String(4000 + i)),
+  ...Array.from({length: 100}, (_, i) => String(3600 + i)),
+  ...Array.from({length: 100}, (_, i) => String(3900 + i)),
+  // Port Elizabeth / Gqeberha
+  ...Array.from({length: 100}, (_, i) => String(6000 + i)),
+  ...Array.from({length: 50}, (_, i) => String(6200 + i)),
+  // East London
+  ...Array.from({length: 50}, (_, i) => String(5200 + i)),
+  // Bloemfontein
+  ...Array.from({length: 50}, (_, i) => String(9300 + i)),
+  // Nelspruit
+  ...Array.from({length: 30}, (_, i) => String(1200 + i)),
+  // Polokwane
+  ...Array.from({length: 30}, (_, i) => String(0699 + i).padStart(4, '0')),
+  // Specific known urban codes
+  "7441", "7784", "7945", "8001", "8005", "7925", "7130", "7140",
+  "7441", "7580", "7550", "7560", "7570", "7100", "7110", "7120",
+  "2193", "2090", "2091", "2092", "2094", "2195", "2196", "2197",
+  "2001", "2010", "2017", "2018", "2019", "2021", "2024", "2025",
+  "0002", "0007", "0028", "0040", "0044", "0050", "0081", "0082",
+  "4001", "4052", "4060", "4091", "3615", "3629", "3610",
+]);
+
+function detectAreaType(postalCode: string): "urban" | "rural" | null {
+  if (!postalCode || postalCode.length < 4) return null;
+  const code = postalCode.trim().padStart(4, '0');
+  return URBAN_POSTAL_CODES.has(code) ? "urban" : "rural";
+}
+
 const Checkout = () => {
   const { items, total, clearCart } = useCart();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [areaType, setAreaType] = useState<"urban" | "rural">("urban");
+  const [areaDetected, setAreaDetected] = useState(false);
   const [form, setForm] = useState({
     customerName: "",
     customerEmail: "",
@@ -38,6 +86,21 @@ const Checkout = () => {
 
   const shippingCost = areaType === "urban" ? SHIPPING_URBAN : SHIPPING_RURAL;
   const grandTotal = total + shippingCost;
+
+  // Auto-detect area type when postal code changes
+  useEffect(() => {
+    if (form.shippingPostalCode.length === 4) {
+      const detected = detectAreaType(form.shippingPostalCode);
+      if (detected) {
+        setAreaType(detected);
+        setAreaDetected(true);
+      } else {
+        setAreaDetected(false);
+      }
+    } else {
+      setAreaDetected(false);
+    }
+  }, [form.shippingPostalCode]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -74,7 +137,6 @@ const Checkout = () => {
       if (error) throw error;
       if (!data?.paymentUrl || !data?.paymentData) throw new Error("Invalid payment response");
 
-      // Create and submit a form to PayFast
       const pfForm = document.createElement("form");
       pfForm.method = "POST";
       pfForm.action = data.paymentUrl;
@@ -183,8 +245,14 @@ const Checkout = () => {
                     onChange={handleChange}
                     required
                     maxLength={10}
+                    placeholder="e.g. 8001"
                     className="w-full border border-border bg-background px-4 py-3 font-body text-sm focus:outline-none focus:border-foreground transition-colors"
                   />
+                  {areaDetected && (
+                    <p className={`text-xs mt-1 font-body ${areaType === "urban" ? "text-green-600" : "text-orange-500"}`}>
+                      {areaType === "urban" ? "✓ Urban area detected — R180 shipping" : "✓ Rural area detected — R250 shipping"}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -209,7 +277,7 @@ const Checkout = () => {
                 <div className="flex gap-4">
                   <button
                     type="button"
-                    onClick={() => setAreaType("urban")}
+                    onClick={() => { setAreaType("urban"); setAreaDetected(false); }}
                     className={`flex-1 py-3 border font-body text-xs uppercase tracking-[0.15em] transition-colors ${
                       areaType === "urban"
                         ? "bg-primary text-primary-foreground border-primary"
@@ -220,7 +288,7 @@ const Checkout = () => {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setAreaType("rural")}
+                    onClick={() => { setAreaType("rural"); setAreaDetected(false); }}
                     className={`flex-1 py-3 border font-body text-xs uppercase tracking-[0.15em] transition-colors ${
                       areaType === "rural"
                         ? "bg-primary text-primary-foreground border-primary"
@@ -230,6 +298,11 @@ const Checkout = () => {
                     Rural — R{SHIPPING_RURAL}
                   </button>
                 </div>
+                {areaDetected && (
+                  <p className="text-xs mt-2 font-body text-muted-foreground">
+                    Auto-detected from postal code. You can override above if needed.
+                  </p>
+                )}
               </div>
             </form>
 
@@ -265,7 +338,7 @@ const Checkout = () => {
                   <span>R{total.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between font-body text-sm">
-                  <span>Shipping</span>
+                  <span>Shipping ({areaType})</span>
                   <span>R{shippingCost.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between font-heading text-2xl pt-2 border-t border-border">
